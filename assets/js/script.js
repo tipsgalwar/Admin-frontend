@@ -102,7 +102,7 @@ function toggleheader() {
 // Function to fetch and display data for Contact Form inquiries
 async function fetchContactFormData() {
   try {
-    const response = await fetch("http://localhost:5000/api/contact");
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/contact");
     const data = await response.json();
     const contactTable = document.getElementById("contact-table");
     if (contactTable) {
@@ -128,7 +128,7 @@ async function fetchContactFormData() {
 // Function to fetch and display data for Student Registration
 async function fetchRegistrationData() {
   try {
-    const response = await fetch("http://localhost:5000/api/registration");
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/registration");
     const data = await response.json();
     const registrationTable = document.getElementById("registration-table");
     if (registrationTable) {
@@ -154,7 +154,7 @@ async function fetchRegistrationData() {
 // Function to fetch and display data for Results
 async function fetchResultsData() {
   try {
-    const response = await fetch("http://localhost:5000/api/result");
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/result");
     const data = await response.json();
     const resultTable = document.getElementById("result-body");
     if (resultTable) {
