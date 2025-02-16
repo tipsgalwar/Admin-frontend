@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+
+    <!-- Bootstrap CSS for styling -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/Contacts.css" />
+
+    <!-- Bootstrap Icons for UI Elements -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <!-- jQuery for Sidebar Toggle -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Chart.js for future graphical data -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+      <button class="close-btn" id="close-sidebar">×</button>
+      <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+
+      <!-- Sidebar Menu -->
+      <div class="btn-list d-grid gap-2">
+        <a href="../index.html">
+          <button class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-house-door"></i> Home
+          </button>
+        </a>
+        <a href="results.html">
+          <button class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-book"></i> TTRE Results
+          </button>
+        </a>
+        <a href="registrations.html">
+          <button class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-people"></i> Registrations
+          </button>
+        </a>
+        <a href="contactForm.html">
+          <!-- Highlighted Button (Current Page) -->
+          <button
+            class="btn btn-outline-primary btn-lg"
+            style="border: 3px solid #fff"
+          >
+            <i class="bi bi-telephone"></i> Contacts
+          </button>
+        </a>
+        <a href="Blogs.html">
+          <button class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-journal"></i> Blogs
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="main-content">
+      <!-- Navbar -->
+      <nav class="navbar navbar-custom p-3">
+        <div class="container-fluid d-flex justify-content-between">
+          <!-- Dashboard Title -->
+          <h1 class="navbar-brand">
+             TIPS-G ALWAR
+          </h1>
+
+          <!-- Sidebar Toggle Button (for Mobile) -->
+          <button class="btn btn-light toggle-btn" id="toggle-sidebar">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Contact Results Table -->
+      <div class="container mt-5 pt-5">
+        <div class="table-container">
+          <table id="contact-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Qualification</th>
+                <th>Inquery Subject</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Data will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Logo at Bottom-Right Corner -->
+      <img src="../assets/images/logo_Tips-G-removebg-preview.png" alt="TIPS-G Logo" />
+    </div>
+
+    <!-- Sidebar Toggle Script -->
+    <script>
+      $(document).ready(function () {
+        $("#toggle-sidebar").click(function () {
+          $("#sidebar").toggleClass("show");
+        });
+
+        $("#close-sidebar").click(function () {
+          $("#sidebar").removeClass("show");
+        });
+      });
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+  </body>
+</html>
