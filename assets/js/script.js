@@ -64,7 +64,11 @@ function validateLogin() {
   var modalContent = document.querySelector(".modal-content");
 
   // Hardcoded credentials
-  if (username === "tipsgalwar" && password === "tipsgalwar") {
+  if (
+    (username === "tipsgalwar" && password === "abhishek009") ||
+    (username === "tipsgalwar" && password === "shreya006") ||
+    (username === "tipsgalwar" && password === "manisha")
+  ) {
     sessionStorage.setItem("isLoggedIn", "true");
 
     // Hide modal and show main content
@@ -102,7 +106,9 @@ function toggleheader() {
 // Function to fetch and display data for Contact Form inquiries
 async function fetchContactFormData() {
   try {
-    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/contact");
+    const response = await fetch(
+      "https://admin-backend-wbbc.onrender.com/api/contact"
+    );
     const data = await response.json();
     const contactTable = document.getElementById("contact-table");
     if (contactTable) {
@@ -116,6 +122,7 @@ async function fetchContactFormData() {
                     <td>${item.qualification}
                     <td>${item.subject}</td>
                     <td>${item.message}</td>
+                    <td>${item.createdAt}</td> 
                 `;
         contactTable.appendChild(row);
       });
@@ -128,7 +135,9 @@ async function fetchContactFormData() {
 // Function to fetch and display data for Student Registration
 async function fetchRegistrationData() {
   try {
-    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/registration");
+    const response = await fetch(
+      "https://admin-backend-wbbc.onrender.com/api/registration"
+    );
     const data = await response.json();
     const registrationTable = document.getElementById("registration-table");
     if (registrationTable) {
@@ -142,6 +151,7 @@ async function fetchRegistrationData() {
                     <td>${item.institute}</td>
                     <td>${item.education}</td>
                     <td>${item.city}</td>
+                    <td>${item.timestamp}</td> 
                 `;
         registrationTable.appendChild(row);
       });
@@ -154,7 +164,9 @@ async function fetchRegistrationData() {
 // Function to fetch and display data for Results
 async function fetchResultsData() {
   try {
-    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/result");
+    const response = await fetch(
+      "https://admin-backend-wbbc.onrender.com/api/result"
+    );
     const data = await response.json();
     const resultTable = document.getElementById("result-body");
     if (resultTable) {
@@ -168,6 +180,7 @@ async function fetchResultsData() {
                 <td>${item.score}</td>
                 <td>${item.total}</td>
                 <td>${item.result}</td>
+                <td>${item.timestamp}</td>
                 `;
         resultTable.appendChild(row);
       });

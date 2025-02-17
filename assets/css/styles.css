@@ -50,7 +50,7 @@ input {
 }
 
 /* Login button */
-button {
+#loginbtn {
   padding: 10px 15px;
   width: 100%;
   background: #2600b1;
@@ -62,7 +62,7 @@ button {
   transition: background 0.3s ease-in-out;
 }
 
-button:hover {
+#loginbtn:hover {
   background: #0056b3;
 }
 
