@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
 
-    <!-- Bootstrap CSS for styling -->
+    <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -14,37 +14,56 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/Registrations.css" />
 
-    <!-- Bootstrap Icons for UI Elements -->
+    <!-- Bootstrap Icons -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
     />
 
-    <!-- jQuery for Sidebar Toggle -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Chart.js for future graphical data -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/auth.js"></script>
   </head>
   <body>
-    <!-- Sidebar Navigation -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <h2><i class="bi bi-person-circle"></i> Admin Login</h2>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+          <input type="text" id="username" class="form-control" placeholder="Username" />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" id="password" class="form-control" placeholder="Password" />
+        </div>
+
+        <p id="error-msg" style="color: red; display: none"></p>
+
+        <button onclick="validateLogin()" id="loginbtn">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <button class="close-btn" id="close-sidebar">×</button>
       <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
 
-      <!-- Sidebar Menu -->
       <div class="btn-list d-grid gap-2">
         <a href="../index.html">
           <button class="btn btn-outline-primary btn-lg">
             <i class="bi bi-house-door"></i> Home
           </button>
         </a>
-        <!-- Highlighted Button (Current Page) -->
         <a href="./results.html">
-          <button
-            class="btn btn-outline-primary btn-lg"
-            style="border: 3px solid #fff"
-          >
+          <button class="btn btn-outline-primary btn-lg active">
             <i class="bi bi-book"></i> TTRE Results
           </button>
         </a>
@@ -68,22 +87,16 @@
 
     <!-- Main Content -->
     <div class="content" id="main-content">
-      <!-- Navbar -->
       <nav class="navbar navbar-custom p-3">
         <div class="container-fluid d-flex justify-content-between">
-          <!-- Dashboard Title -->
-          <h1 class="navbar-brand">
-            TIPS-G ALWAR
-          </h1>
-
-          <!-- Sidebar Toggle Button (for Mobile) -->
+          <h1 class="navbar-brand">TIPS-G ALWAR</h1>
           <button class="btn btn-light toggle-btn" id="toggle-sidebar">
             <i class="bi bi-list"></i>
           </button>
         </div>
       </nav>
 
-      <!-- Contact Results Table -->
+      <!-- Results Table -->
       <div class="container mt-5 pt-5">
         <div class="table-container">
           <table id="result-table">
@@ -94,22 +107,21 @@
                 <th>Phone Number</th>
                 <th>Score</th>
                 <th>Total</th>
-                <th>Questions Attempt </th>
-                <th>Submit Time </th>
+                <th>Questions Attempted</th>
+                <th>Submit Time</th>
               </tr>
             </thead>
             <tbody id="result-body">
-              <!-- Data will be dynamically inserted here -->
+              <!-- Data will be dynamically inserted -->
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Logo at Bottom-Right Corner -->
       <img src="../assets/images/logo_Tips-G-removebg-preview.png" alt="TIPS-G Logo" />
     </div>
 
-    <!-- Sidebar Toggle Script -->
+    <!-- Sidebar & Login Script -->
     <script>
       $(document).ready(function () {
         $("#toggle-sidebar").click(function () {
@@ -120,9 +132,19 @@
           $("#sidebar").removeClass("show");
         });
       });
+
+      window.onload = function () {
+        if (sessionStorage.getItem("isLoggedIn") === "true") {
+          document.getElementById("loginModal").style.display = "none";
+          document.getElementById("main-content").style.display = "block";
+        } else {
+          document.getElementById("loginModal").style.display = "flex";
+          document.getElementById("main-content").style.display = "none";
+        }
+      };
     </script>
 
-    <!-- Bootstrap JS Bundle -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/script.js"></script>
   </body>

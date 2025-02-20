@@ -25,8 +25,34 @@
 
     <!-- Chart.js for future graphical data -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/auth.js"></script>
   </head>
   <body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <h2><i class="bi bi-person-circle"></i> Admin Login</h2>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+          <input type="text" id="username" class="form-control" placeholder="Username" />
+        </div>
+
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" id="password" class="form-control" placeholder="Password" />
+        </div>
+
+        <!-- Error Message -->
+        <p id="error-msg" style="color: red; display: none"></p>
+
+        <button onclick="validateLogin()" id="loginbtn">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </button>
+      </div>
+    </div>
+    <!-- /Login Modal -->
+
     <!-- Sidebar Navigation -->
     <div class="sidebar" id="sidebar">
       <button class="close-btn" id="close-sidebar">×</button>
@@ -93,7 +119,7 @@
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Qualification</th>
-                <th>Inquery Subject</th>
+                <th>Inquiry Subject</th>
                 <th>Message</th>
                 <th>Submit Time</th>
               </tr>
@@ -120,6 +146,30 @@
           $("#sidebar").removeClass("show");
         });
       });
+
+      window.onload = function () {
+        if (sessionStorage.getItem("isLoggedIn") === "true") {
+          document.getElementById("loginModal").style.display = "none";
+          document.getElementById("main-content").style.display = "block";
+        } else {
+          document.getElementById("loginModal").style.display = "flex";
+          document.getElementById("main-content").style.display = "none";
+        }
+      };
+
+      function validateLogin() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "password123") {
+          sessionStorage.setItem("isLoggedIn", "true");
+          document.getElementById("loginModal").style.display = "none";
+          document.getElementById("main-content").style.display = "block";
+        } else {
+          document.getElementById("error-msg").style.display = "block";
+          document.getElementById("error-msg").innerText = "Invalid Credentials!";
+        }
+      }
     </script>
 
     <!-- Bootstrap JS Bundle -->

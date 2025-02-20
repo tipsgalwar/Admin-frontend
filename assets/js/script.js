@@ -1,81 +1,33 @@
-// (function () {
-//   "use strict";
-
-//   /**
-//    * Apply .scrolled class to the body as the page is scrolled down
-//    */
-//   function toggleScrolled() {
-//     const selectBody = document.querySelector("body");
-//     const selectHeader = document.querySelector("#header");
-//     if (
-//       !selectHeader.classList.contains("scroll-up-sticky") &&
-//       !selectHeader.classList.contains("sticky-top") &&
-//       !selectHeader.classList.contains("fixed-top")
-//     )
-//       return;
-//     window.scrollY > 100
-//       ? selectBody.classList.add("scrolled")
-//       : selectBody.classList.remove("scrolled");
-//   }
-
-//   document.addEventListener("scroll", toggleScrolled);
-//   window.addEventListener("load", toggleScrolled);
-
-//   /**
-//    * Mobile nav toggle
-//    */
-//   const mobileNavToggleBtn = document.querySelector(".mobile-nav-toggle");
-
-//   function mobileNavToogle() {
-//     document.querySelector("body").classList.toggle("mobile-nav-active");
-//     mobileNavToggleBtn.classList.toggle("bi-list");
-//     mobileNavToggleBtn.classList.toggle("bi-x");
-//   }
-//   mobileNavToggleBtn.addEventListener("click", mobileNavToogle);
-
-//   /**
-//    * Hide mobile nav on same-page/hash links
-//    */
-//   document.querySelectorAll("#navmenu a").forEach((navmenu) => {
-//     navmenu.addEventListener("click", () => {
-//       if (document.querySelector(".mobile-nav-active")) {
-//         mobileNavToogle();
-//       }
-//     });
-//   });
-
-//   /**
-//    * Toggle mobile nav dropdowns
-//    */
-//   document.querySelectorAll(".navmenu .toggle-dropdown").forEach((navmenu) => {
-//     navmenu.addEventListener("click", function (e) {
-//       e.preventDefault();
-//       this.parentNode.classList.toggle("active");
-//       this.parentNode.nextElementSibling.classList.toggle("dropdown-active");
-//       e.stopImmediatePropagation();
-//     });
-//   });
-// })();
-
-function validateLogin() {
+// Login Function (JWT Authentication)
+async function validateLogin() {
   var username = document.getElementById("username").value;
   var password = document.getElementById("password").value;
   var errorMsg = document.getElementById("error-msg");
   var modalContent = document.querySelector(".modal-content");
 
-  // Hardcoded credentials
-  if (
-    (username === "tipsgalwar" && password === "abhishek009") ||
-    (username === "tipsgalwar" && password === "shreya006") ||
-    (username === "tipsgalwar" && password === "manisha")
-  ) {
-    sessionStorage.setItem("isLoggedIn", "true");
+  try {
+    const response = await fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-    // Hide modal and show main content
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("modal-content").style.display = "block";
-  } else {
-    errorMsg.innerText = "Invalid username or password!";
+    const data = await response.json();
+
+    if (response.ok) {
+      // Store Token & Set Session
+      localStorage.setItem("token", data.token);
+      sessionStorage.setItem("isLoggedIn", "true");
+
+      // Redirect to Dashboard or Another Page
+      window.location.href = "index.html";
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    errorMsg.innerText = error.message;
     errorMsg.style.display = "block"; // Show error message
     modalContent.classList.add("shake"); // Apply shake effect
 
@@ -84,46 +36,42 @@ function validateLogin() {
   }
 }
 
-// Check login status on page load
-window.onload = function () {
-  if (sessionStorage.getItem("isLoggedIn") === "true") {
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("modal-content").style.display = "block"; // Show main content
-  } else {
-    document.getElementById("loginModal").style.display = "flex"; // Show login modal
-    document.getElementById("modal-content").style.display = "none"; // Hide main content
-  }
-};
-
-function toggleheader() {
-  var sidebar = document.getElementById("header");
-  var overlay = document.getElementById("overlay");
-
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
+// Logout Function
+function logout() {
+  localStorage.removeItem("token"); // JWT Token Remove karein
+  sessionStorage.removeItem("isLoggedIn"); // Session Clear karein
+  window.location.href = "index.html"; // Redirect to Login Page
 }
 
-// Function to fetch and display data for Contact Form inquiries
+// Fetch Contact Form Data
 async function fetchContactFormData() {
   try {
-    const response = await fetch(
-      "https://admin-backend-wbbc.onrender.com/api/contact"
-    );
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/contact", {
+      method: "GET",
+      headers: { Authorization: token },
+    });
+
+    if (response.status === 401) {
+      throw new Error("Unauthorized Access. Please log in.");
+    }
+
     const data = await response.json();
     const contactTable = document.getElementById("contact-table");
+
     if (contactTable) {
-      // Check if the table exists
       data.forEach((item) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.number}</td>
-                    <td>${item.qualification}
-                    <td>${item.subject}</td>
-                    <td>${item.message}</td>
-                    <td>${item.createdAt}</td> 
-                `;
+                  <td>${item.name}</td>
+                  <td>${item.email}</td>
+                  <td>${item.number}</td>
+                  <td>${item.qualification}</td>
+                  <td>${item.subject}</td>
+                  <td>${item.message}</td>
+                  <td>${item.createdAt}</td>
+              `;
         contactTable.appendChild(row);
       });
     }
@@ -132,27 +80,35 @@ async function fetchContactFormData() {
   }
 }
 
-// Function to fetch and display data for Student Registration
+// Fetch Student Registration Data
 async function fetchRegistrationData() {
   try {
-    const response = await fetch(
-      "https://admin-backend-wbbc.onrender.com/api/registration"
-    );
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/registration", {
+      method: "GET",
+      headers: { Authorization: token },
+    });
+
+    if (response.status === 401) {
+      throw new Error("Unauthorized Access. Please log in.");
+    }
+
     const data = await response.json();
     const registrationTable = document.getElementById("registration-table");
+
     if (registrationTable) {
-      // Check if the table exists
       data.forEach((item) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.mobile}</td>
-                    <td>${item.email}</td>
-                    <td>${item.institute}</td>
-                    <td>${item.education}</td>
-                    <td>${item.city}</td>
-                    <td>${item.timestamp}</td> 
-                `;
+                  <td>${item.name}</td>
+                  <td>${item.mobile}</td>
+                  <td>${item.email}</td>
+                  <td>${item.institute}</td>
+                  <td>${item.education}</td>
+                  <td>${item.city}</td>
+                  <td>${item.timestamp}</td>
+              `;
         registrationTable.appendChild(row);
       });
     }
@@ -161,27 +117,35 @@ async function fetchRegistrationData() {
   }
 }
 
-// Function to fetch and display data for Results
+// Fetch Student Results Data
 async function fetchResultsData() {
   try {
-    const response = await fetch(
-      "https://admin-backend-wbbc.onrender.com/api/result"
-    );
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/result", {
+      method: "GET",
+      headers: { Authorization: token },
+    });
+
+    if (response.status === 401) {
+      throw new Error("Unauthorized Access. Please log in.");
+    }
+
     const data = await response.json();
     const resultTable = document.getElementById("result-body");
+
     if (resultTable) {
-      // Check if the table exists
       data.forEach((item) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-                <td>${item.rank}</td>
-                <td>${item.name}</td>
-                <td>${item.mobile}</td>
-                <td>${item.score}</td>
-                <td>${item.total}</td>
-                <td>${item.result}</td>
-                <td>${item.timestamp}</td>
-                `;
+                  <td>${item.rank}</td>
+                  <td>${item.name}</td>
+                  <td>${item.mobile}</td>
+                  <td>${item.score}</td>
+                  <td>${item.total}</td>
+                  <td>${item.result}</td>
+                  <td>${item.timestamp}</td>
+              `;
         resultTable.appendChild(row);
       });
     }
