@@ -6,7 +6,7 @@ async function validateLogin() {
   var modalContent = document.querySelector(".modal-content");
 
   try {
-    const response = await fetch("https://admin-frontend-5t0v.onrender.com/api/login", {
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ async function fetchContactFormData() {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("https://admin-frontend-5t0v.onrender.com/api/contact", {
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/contact", {
       method: "GET",
       headers: { Authorization: token },
     });
@@ -85,7 +85,7 @@ async function fetchRegistrationData() {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("https://admin-frontend-5t0v.onrender.com/api/registration", {
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/registration", {
       method: "GET",
       headers: { Authorization: token },
     });
@@ -122,7 +122,7 @@ async function fetchResultsData() {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("https://admin-frontend-5t0v.onrender.com/api/result", {
+    const response = await fetch("https://admin-backend-wbbc.onrender.com/api/result", {
       method: "GET",
       headers: { Authorization: token },
     });
