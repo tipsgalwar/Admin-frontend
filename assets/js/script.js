@@ -140,8 +140,8 @@ async function fetchResultsData() {
         row.innerHTML = `
                   <td>${item.rank}</td>
                   <td>${item.name}</td>
-                  <td>${item.mobile}</td>
                   <td>${item.score}</td>
+                  <td>${item.mobile}</td>
                   <td>${item.total}</td>
                   <td>${item.result}</td>
                   <td>${item.timestamp}</td>
